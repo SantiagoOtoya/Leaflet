@@ -17,6 +17,21 @@ describe('Map', () => {
 		removeMapContainer(map, container);
 	});
 
+	it('adds default controls only once when extending Map', () => {
+		class ExtendedMap extends LeafletMap {}
+		const extendedContainer = createContainer();
+		const extendedMap = new ExtendedMap(extendedContainer);
+
+		try {
+			expect({
+				zoom: extendedContainer.querySelectorAll('.leaflet-control-zoom').length,
+				attribution: extendedContainer.querySelectorAll('.leaflet-control-attribution').length
+			}).to.eql({zoom: 1, attribution: 1});
+		} finally {
+			removeMapContainer(extendedMap, extendedContainer);
+		}
+	});
+
 	describe('#remove', () => {
 		let spy;
 

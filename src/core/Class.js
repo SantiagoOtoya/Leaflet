@@ -94,8 +94,10 @@ export class Class {
 
 		// call init hooks on each prototype
 		for (const proto of prototypes) {
-			for (const hook of proto._initHooks ?? []) {
-				hook.call(this);
+			if (Object.hasOwn(proto, '_initHooks')) {
+				for (const hook of proto._initHooks) {
+					hook.call(this);
+				}
 			}
 		}
 
